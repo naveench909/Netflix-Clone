@@ -4,7 +4,6 @@ import Banner from './components/Banner'
 import request from './request';
 import Navbar from './components/Navbar'
 
-
 function App() {
   return (
     <div className="App">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from '../axios';
 import YouTube from 'react-youtube';
 import movieTrailer from 'movie-trailer';
+// import ReactPlayer from 'react-player';
 import './Row.css';
 
 const base_url = "https://image.tmdb.org/t/p/original/";
@@ -15,7 +16,7 @@ function Row({ title, fetchUrl, isLargeRow }) {
         setMovies(response.data.results);
         return response;
     }
-    // A snippet of code which runs based on a specific condition/variable
+
     useEffect(()=> {
         fetchData();
     }, [fetchUrl])
@@ -24,29 +25,22 @@ function Row({ title, fetchUrl, isLargeRow }) {
         height: "390px",
         width:"100%",
         playerVars: {
-            // https://developers.google.com/youtube/player_parameters
             autoplay:1,
         }
     }
-    // console.log(movies)
 
     const handleClick = (movie) => {
         if(trailerUrl){
-            setTrailerUrl("")
+            setTrailerUrl("");
         }else{
-            // console.log(movie.name)
-            movieTrailer(movie?.name || "" , {id: true}).then((res) => {
-                setTrailerUrl(res);
+            movieTrailer(movie?.name || movie?.original_title || movie.title || "" )            
+            .then((url) =>{
+                const urlParams = new URLSearchParams(new URL(url).search);
+                setTrailerUrl(urlParams.get('v'));
             })
-            
-            // .then((url) =>{
-            //     const urlParams = new URLSearchParams(new URL(url).search);
-            //     setTrailerUrl(urlParams.get('v'));
-            // })
-            // .catch((error) => console.log(error));
-        }
+            .catch((error) => console.log(error));
     }
-    console.log("trailerurl",trailerUrl);
+    }
 
     return (
         <div className="row">
@@ -57,6 +51,8 @@ function Row({ title, fetchUrl, isLargeRow }) {
                 ))}
             </div>
             {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
+
+            {/* {trailerUrl && <ReactPlayer url={trailerUrl} controls={true} playing={true}/>} */}
         </div>
     )
 }
