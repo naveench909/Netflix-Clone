@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
     - source: /
-      destination: /home/ubuntu/schedule-testing-cms-frontend
+      destination: /home/ubuntu/netflix-clone
 hooks:
     ApplicationStart:
         - location: scripts/application_start.sh
