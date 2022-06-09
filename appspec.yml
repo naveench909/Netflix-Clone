@@ -3,6 +3,7 @@ os: linux
 files:
     - source: /
       destination: /home/ubuntu/netflix-clone
+      owner: ubuntu
 hooks:
     ApplicationStart:
         - location: scripts/application_start.sh
